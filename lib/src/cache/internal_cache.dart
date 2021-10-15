@@ -74,7 +74,7 @@ class InternalCache {
     }
   }
 
-  clear() {
+  invalidateAll() {
     for (var key in _cache.keys) {
       final subscribers = _cache[key]!.subscribers;
       for (var subscriber in subscribers) {

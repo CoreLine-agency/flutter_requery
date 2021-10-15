@@ -6,16 +6,6 @@ bool _containsDelimiter(String key) {
   return key.contains("_");
 }
 
-extension ListWithFind<T> on List<T> {
-  T? find(bool Function(T) test) {
-    try {
-      return firstWhere(test);
-    } catch (e) {
-      return null;
-    }
-  }
-}
-
 String _transformSubKey(dynamic subKey) {
   if (!_isPrimitive(subKey)) {
     throw 'Cache key $subKey must be serializable. Please use int or String.';

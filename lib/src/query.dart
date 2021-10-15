@@ -3,11 +3,57 @@ import 'package:flutter_requery/src/cache/cache_item_subscriber.dart';
 import 'package:flutter_requery/src/cache/internal_cache.dart';
 import 'package:flutter_requery/src/types.dart';
 
-class Query<T> extends StatefulWidget {
+/// Executes async action and listens for further invalidations.
+///
+/// Takes [future] object which represents async action. Usually, this means API call.\
+/// Takes [cacheKey] identifier which will be used for storing the [future] response\
+/// Takes [builder] which follows the standard Flutter builder pattern. First
+/// parameter is [BuildContext] followed by [QueryResponse] object
+///
+class Query<T extends Object> extends StatefulWidget {
+  /// Identifier used for storing the data in cache.
+  ///
+  /// [cacheKey] can be int or String.
+  /// ```dart
+  /// const key = "rndStr";
+  /// // or
+  /// const key = 1;
+  /// ```
+  ///
+  /// Also, [cacheKey] can be a list composed of Strings and ints.
+  /// ```dart
+  /// const key = ["rndStr", 1];
+  /// ```
   final dynamic cacheKey;
-  final QueryFuture<T> future;
-  final QueryBuilder<T> builder;
 
+  /// Async function which result will be stored in cache
+  final Future<T> Function() future;
+
+  /// Updates the widget subtree by providing a latest [QueryResponse] object to the children.
+  ///
+  /// Each [Query] instance will rebuild its children twice.
+  /// First rebuild will be called with this [QueryResponse] instance:
+  /// ```dart
+  /// QueryResponse(
+  ///   data: null,
+  ///   loading: true,
+  ///   error: null,
+  /// );
+  /// ```
+  /// Second rebuild will be called with:
+  ///```dart
+  /// QueryResponse(
+  ///   data: data, // null if your future throws exception
+  ///   loading: false,
+  ///   error: null,  // null if your [future] exited successfully
+  /// );
+  /// ```
+  final Widget Function(
+    BuildContext context,
+    QueryResponse<T> response,
+  ) builder;
+
+  /// Creates [Query] instance.
   Query(
     this.cacheKey, {
     required this.builder,
@@ -18,7 +64,7 @@ class Query<T> extends StatefulWidget {
   _QueryState<T> createState() => _QueryState<T>();
 }
 
-class _QueryState<T> extends State<Query<T>> {
+class _QueryState<T extends Object> extends State<Query<T>> {
   late Stream<QueryResponse<T>> stream;
   Stream<QueryResponse<T>> _createStreamFromAction<T>(
     Function cb,

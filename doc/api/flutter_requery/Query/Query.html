@@ -7,14 +7,19 @@
   <meta name="description" content="API docs for the Query constructor from the Class Query class from the flutter_requery library, for the Dart programming language.">
   <title>Query constructor - Query class - flutter_requery library - Dart API</title>
 
-  
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="../../static-assets/github.css">
-  <link rel="stylesheet" href="../../static-assets/styles.css">
-  <link rel="icon" href="../../static-assets/favicon.png">
 
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
 </head>
+
 
 <body data-base-href="../../"
       data-using-base-href="false">
@@ -26,7 +31,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">flutter_requery</a></li>
     <li><a href="../../flutter_requery/flutter_requery-library.html">flutter_requery</a></li>
-    <li><a href="../../flutter_requery/Query-class.html">Query<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></a></li>
+    <li><a href="../../flutter_requery/Query-class.html">Query<span class="signature">&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span></a></li>
     <li class="self-crumb">Query constructor</li>
   </ol>
   <div class="self-name">Query</div>
@@ -37,51 +42,90 @@
 
 <main>
 
-  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-constructor">Query&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span> constructor 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      <span class="name ">Query&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-cacheKey"><span class="type-annotation">dynamic</span> <span class="parameter-name">cacheKey</span>, </span></li>
+<li><span class="parameter" id="-param-builder">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span> <span class="parameter-name">builder</span>(<ol class="parameter-list"><li><span class="parameter" id="param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="param-response"><span class="type-annotation"><a href="../../flutter_requery/QueryResponse-class.html">QueryResponse</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">response</span></span></li>
+</ol>
+), </span></li>
+<li><span class="parameter" id="-param-future"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">future</span>(<ol class="parameter-list"></ol>
+)}</span></li>
+</ol>)
+    </section>
+
+    
+<section class="desc markdown">
+  <p>Creates <a href="../../flutter_requery/Query-class.html">Query</a> instance.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Query(
+  this.cacheKey, {
+  required this.builder,
+  required this.future,
+});</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
     <header id="header-search-sidebar" class="hidden-l">
-      <form class="search-sidebar" role="search">
-        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
-      </form>
-    </header>
-    
-    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-      <li><a href="../../index.html">flutter_requery</a></li>
-      <li><a href="../../flutter_requery/flutter_requery-library.html">flutter_requery</a></li>
-      <li><a href="../../flutter_requery/Query-class.html">Query<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></a></li>
-      <li class="self-crumb">Query constructor</li>
-    </ol>
-    
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">flutter_requery</a></li>
+  <li><a href="../../flutter_requery/flutter_requery-library.html">flutter_requery</a></li>
+  <li><a href="../../flutter_requery/Query-class.html">Query<span class="signature">&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span></a></li>
+  <li class="self-crumb">Query constructor</li>
+</ol>
+
+
     <h5>Query class</h5>
     <ol>
-
 
     <li class="section-title"><a href="../../flutter_requery/Query-class.html#constructors">Constructors</a></li>
     <li><a href="../../flutter_requery/Query/Query.html">Query</a></li>
 
-    <li class="section-title"> <a href="../../flutter_requery/Query-class.html#instance-properties">Properties</a>
+
+    <li class="section-title">
+      <a href="../../flutter_requery/Query-class.html#instance-properties">Properties</a>
     </li>
     <li><a href="../../flutter_requery/Query/builder.html">builder</a></li>
     <li><a href="../../flutter_requery/Query/cacheKey.html">cacheKey</a></li>
     <li><a href="../../flutter_requery/Query/future.html">future</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/Widget/hashCode.html">hashCode</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/Widget/key.html">key</a></li>
-    <li><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../flutter_requery/Query/transformedKey.html">transformedKey</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/Widget/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/Widget/key.html">key</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
     <li class="section-title"><a href="../../flutter_requery/Query-class.html#instance-methods">Methods</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html">createElement</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html">createElement</a></li>
     <li><a href="../../flutter_requery/Query/createState.html">createState</a></li>
-    <li><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html">debugDescribeChildren</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html">debugFillProperties</a></li>
-    <li><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
-    <li><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
-    <li><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html">toStringDeep</a></li>
-    <li><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html">toStringShallow</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html">toStringShort</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html">debugDescribeChildren</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html">debugFillProperties</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html">toStringDeep</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html">toStringShallow</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html">toStringShort</a></li>
 
-    <li class="section-title"><a href="../../flutter_requery/Query-class.html#operators">Operators</a></li>
-    <li><a href="https://api.flutter.dev/flutter/widgets/Widget/operator_equals.html">operator ==</a></li>
+    <li class="section-title inherited"><a href="../../flutter_requery/Query-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/Widget/operator_equals.html">operator ==</a></li>
+
 
 
 
@@ -89,30 +133,7 @@
 
   </div><!--/.sidebar-offcanvas-left-->
 
-  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
-      <div><h1><span class="kind-constructor">Query&lt;<wbr><span class="type-parameter">T</span>&gt;</span> constructor </h1></div>
-
-    <section class="multi-line-signature">
-      
-      <span class="name ">Query&lt;<wbr><span class="type-parameter">T</span>&gt;</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-cacheKey">{<span>@<a href="https://pub.dev/documentation/meta/1.3.0-nullsafety.3/meta/required-constant.html">required</a></span> <span class="type-annotation">dynamic</span> <span class="parameter-name">cacheKey</span>, </span></li>
-<li><span class="parameter" id="-param-builder"><span>@<a href="https://pub.dev/documentation/meta/1.3.0-nullsafety.3/meta/required-constant.html">required</a></span> <span class="type-annotation">_QueryBuilder</span> <span class="parameter-name">builder</span>, </span></li>
-<li><span class="parameter" id="-param-future"><span>@<a href="https://pub.dev/documentation/meta/1.3.0-nullsafety.3/meta/required-constant.html">required</a></span> <span class="type-annotation">_QueryFuture<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">future</span>}</span></li>
-</ol>)
-    </section>
-
-    
-    <section class="summary source-code" id="source">
-      <h2><span>Implementation</span></h2>
-      <pre class="language-dart"><code class="language-dart">Query({
-  @required this.cacheKey,
-  @required this.builder,
-  @required this.future,
-}) : transformedKey = _transformKey(cacheKey);</code></pre>
-    </section>
-
-  </div> <!-- /.main-content -->
-
-  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->
 
 </main>
@@ -120,18 +141,20 @@
 <footer>
   <span class="no-break">
     flutter_requery
-      0.0.1
+      0.0.9
   </span>
 
+  
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="../../static-assets/typeahead.bundle.min.js"></script>
-<script src="../../static-assets/highlight.pack.js"></script>
-<script src="../../static-assets/URI.js"></script>
-<script src="../../static-assets/script.js"></script>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
 
 
 </body>
 
 </html>
+
