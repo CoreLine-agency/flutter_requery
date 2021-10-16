@@ -2,9 +2,9 @@ Flutter library for fetching, caching and invalidating asynchronous data
 
 ## Quick Features
 
-- Fetch asynchronous data using Query widget
-- Invalidate your data with queryCache instance
-- Set optimistic response
+- Fetch asynchronous data
+- Data invalidation
+- Optimistic response
 - Reset cache
 
 ## Motivation
@@ -88,5 +88,68 @@ const k3 = ["data", true];
 ```
 
 Idea behind having keys specified as an array is that you can invalidate your query more intelligently.
+Take a look at [invalidation](#invalidation) chapter for more details
 
-Take a look here for more inf.sd.a.d....
+### Query
+
+Once the cache key is defined, next step is to write the query.\
+Query takes 3 arguments:
+
+- **cacheKey** - look [here](#cache-key) for more info
+- **future** - async action that will be executed
+- **builder** - follows the Flutter builder pattern. First parameter is `BuildContext` followed by `QueryResponse` object
+
+QueryResponse manages query status. It also has 3 properties:
+
+- **data** - response received from the future or null if the exception occured
+- **loading** - boolean, true if the query is running. Otherwise, it's false.
+- **error** - represents an error received from the future. If the future was successful, `error` will be null.
+
+```dart
+Query<List<String>>(
+  'myCacheKey',
+  future: ()async {
+    await Future.delayed(Duration(seconds: 1));
+    return ["Hello"]
+  }
+  builder: (context, QueryResponse response) {
+    /// error state
+    if (response.error != null) {
+      return Text('Error');
+    }
+    /// loading state
+    if (response.loading) {
+      return Text('Loading...');
+    }
+    final children = response.data.map((str) => Text(str)).toList();
+    return ListView(
+      children: children
+    );
+  },
+);
+```
+
+### Invalidation
+
+Data invalidation can come in two different forms.
+You can either afford to wait for the API response or you simply need to show the newest data as soon as possible.
+If you are interested in following, check the [next](#optimistic-response) chapter.
+
+Waiting for the API response is more common and [flutter_request] supports this by using the [queryCache] instance.
+It's global and already defined by the library. Invalidate your query by passing the cache keys.
+
+```dart
+// invalidates strKey query
+queryCache.invalidateQueries('strKey');
+
+// support for bulk invalidation
+queryCache.invalidateQueries(['strKey1', 'strKey2']);
+
+// if your keys are lists, end result would be similar to
+queryCache.invalidateQueries([
+  ['strKey', 1],
+  ['strKey2', 2]
+]);
+```
+
+### Optimistic response
