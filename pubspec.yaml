@@ -3,7 +3,6 @@ description: Flutter library for fetching, caching and invalidating asynchronous
 version: 0.1.3
 homepage: https://github.com/CoreLine-agency/flutter_requery
 repository: https://github.com/CoreLine-agency/flutter_requery
-documentation: https://pub.dev/documentation/flutter_requery/latest
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"
