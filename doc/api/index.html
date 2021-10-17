@@ -30,7 +30,7 @@
 <header id="title">
   <button id="sidenav-left-toggle" type="button">&nbsp;</button>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
-    <li><a href="https://github.com/mislavlukach/flutter_requery">flutter_requery package</a></li>
+    <li><a href="https://github.com/CoreLine-agency/flutter_requery">flutter_requery package</a></li>
   </ol>
   <div class="self-name">flutter_requery</div>
   <form class="search navbar-right" role="search">
@@ -44,19 +44,175 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <h1 id="flutter_query">flutter_query</h1>
-<p>A new flutter plugin project.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>This project is a starting point for a Flutter
-<a href="https://flutter.dev/developing-packages/">plug-in package</a>,
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.</p>
-<p>For help getting started with Flutter, view our
-<a href="https://flutter.dev/docs">online documentation</a>, which offers tutorials,
-samples, guidance on mobile development, and a full API reference.</p>
-<p>The plugin project was generated without specifying the <code>--platforms</code> flag, no platforms are currently supported.
-To add platforms, run <code>flutter create -t plugin --platforms &lt;platforms&gt; .</code> under the same
-directory. You can also find a detailed instruction on how to add platforms in the <code>pubspec.yaml</code> at <a href="https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms">https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms</a>.</p>
+  <p>Flutter library for fetching, caching and invalidating asynchronous data</p>
+<h2 id="quick-features">Quick Features</h2>
+<ul>
+<li>Fetch asynchronous data</li>
+<li>Data invalidation</li>
+<li>Optimistic response</li>
+<li>Reset cache</li>
+</ul>
+<h2 id="motivation">Motivation</h2>
+<p>How to do API calls in Flutter? Probably, majority would answer by using <a href="https://pub.dev/packages/dio">Dio</a>.<br>
+But the real question would be, how to integrate API calls in Flutter arhitecture seamless?
+One way would be to use <a href="https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html">FutureBuilder</a>
+or maybe <a href="https://bloclibrary.dev/#/">Bloc</a> like most of the community do.</p>
+<p>The thing is, both FutureBuilder and Bloc have flaws.<br>
+For example, FutureBuilder is too simple. It does provide status of your query, but communicating with some FutureBuilder is impossible outside of the scope of the current screen.<br>
+Problem with Bloc is that will include so many boilerplate code for a simple API call but again, talking to the Bloc is impossible from other screens. Bloc should be
+number one choice for complicated workflows, but what if you don't have any complex business logic?</p>
+<p><strong>flutter_requery</strong> to the rescue!</p>
+<h2 id="example">Example</h2>
+<p>Let's start with this simple example.</p>
+<pre class="language-dart"><code class="language-dart">/// define data and cache key
+final List&lt;String&gt; data = ["Hello"];
+final String cacheKey = 'strKey';
+
+/// simulates API call, therefore response is delayed
+Future&lt;List&lt;String&gt;&gt; _getData() async {
+  await Future.delayed(Duration(seconds: 1));
+  return data;
+}
+
+/// later, used in the build method
+Query&lt;List&lt;String&gt;&gt;(
+  cacheKey,
+  future: _getData,
+  builder: (context, response) {
+    if (response.error != null) {
+      return Text('Error');
+    }
+    if (response.loading) {
+      return Text('Loading...');
+    }
+    final children = response.data.map((str) =&gt; Text(str)).toList();
+    return ListView(
+      children: children
+    );
+  },
+);
+
+/// and later when you want to invalidate your data
+void _onPress() async {
+  await Future.delayed(Duration(seconds: 1));
+  data.add("World");
+  queryCache.invalidateQueries(cacheKey);
+}
+</code></pre>
+<p>And that's the gist of it. You can find complete example on <a href="https://pub.dev/packages/flutter_requery/example">pub.dev</a>.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="cache-key">Cache key</h3>
+<p>Every query needs a cache key.<br>
+Under this key your data will be stored in cache.
+It can be string, int or list of strings and ints.</p>
+<pre class="language-dart"><code class="language-dart">/// good
+const k1 = 'myKey';
+const k2 = 1;
+const k3 = ["data", 1]
+
+/// bad
+const k1 = 1.0;
+const k2 = true;
+const k3 = ["data", true];
+</code></pre>
+<p>Idea behind having keys specified as list is that you can invalidate your queries more intelligently.<br>
+Take a look at <a href="#invalidation">invalidation</a> chapter for more details.</p>
+<h3 id="query">Query</h3>
+<p>Once the cache key is defined, next step is to write the query.<br>
+Query takes 3 arguments:</p>
+<ul>
+<li><strong>cacheKey</strong> - look <a href="#cache-key">here</a> for more info.</li>
+<li><strong>future</strong> - async action which will be executed.</li>
+<li><strong>builder</strong> - follows the Flutter builder pattern. First parameter is <code>BuildContext</code> followed by <code>QueryResponse</code> object.</li>
+</ul>
+<p>QueryResponse manages query status. It also has 3 properties:</p>
+<ul>
+<li><strong>data</strong> - response received from the future or null if the exception occured.</li>
+<li><strong>loading</strong> - boolean, true if the query is running. Otherwise, it's false.</li>
+<li><strong>error</strong> - represents an error received from the future. If the future was successful, <code>error</code> will be null.</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">// use Query widget in the build method
+Query&lt;List&lt;String&gt;&gt;(
+  'myCacheKey',
+  future: ()async {
+    await Future.delayed(Duration(seconds: 1));
+    return ["Hello"]
+  }
+  builder: (context, QueryResponse response) {
+    /// error state
+    if (response.error != null) {
+      return Text('Error');
+    }
+    /// loading state
+    if (response.loading) {
+      return Text('Loading...');
+    }
+    final children = response.data.map((str) =&gt; Text(str)).toList();
+    return ListView(
+      children: children
+    );
+  },
+);
+</code></pre>
+<h3 id="invalidation">Invalidation</h3>
+<p>Data invalidation can come in two different forms.<br>
+You can either afford to wait for the API response or you simply need to show the newest data as soon as possible.
+If you are interested in following, check the <a href="#optimistic-response">next</a> chapter.</p>
+<p>Waiting for the API response is more common and <strong>flutter_requery</strong> supports this by using the <code>queryCache</code> instance.
+It's global and already defined by the library. Invalidate your query by passing the cache keys.</p>
+<pre class="language-dart"><code class="language-dart">// invalidates strKey query
+queryCache.invalidateQueries('strKey');
+
+// support for bulk invalidation
+queryCache.invalidateQueries(['strKey1', 'strKey2']);
+
+// if your keys are lists, end result would be similar to
+queryCache.invalidateQueries([
+  ['strKey', 1],
+  ['strKey2', 2]
+]);
+</code></pre>
+<p>Once query is invalidated, every <code>Query</code> widget subscribed for that query
+will execute <code>future</code> again and rebuild its children with the new data.</p>
+<p>For cache-level invalidation use:</p>
+<pre class="language-dart"><code class="language-dart">// invalidate every query stored in cache
+queryCache.invalidateAll()
+</code></pre>
+<p>Invalidation works in pair with the keys defined as lists.
+Cache keys defined as list must be looked upon in a hierarchical manner where the list elements defined before are ancestors of the elements that come after.
+For example:</p>
+<pre class="language-dart"><code class="language-dart">// requests is ancestor of 1
+const key1 = ["requests", 1]
+</code></pre>
+<p>Reasoning behind this is to support hierarchical invalidation.
+Sometimes it can get cumbersome managing invalidations and therefore developer can decide to cleverly name keys to support this.
+For example:</p>
+<pre class="language-dart"><code class="language-dart">const k1 = ["requests", 1]
+const k2 = ["requests", 2]
+const k3 = "requests"
+
+// without hierarchical invalidation you need to call
+queryCache.invalidateQueries([
+  ["requests", 1], ["requests", 2], "requests"
+]);
+
+// but with hierarchical invalidation you only need to call
+queryCache.invalidateQueries("requests");
+</code></pre>
+<h3 id="optimistic-response">Optimistic response</h3>
+<p>Sometimes waiting period for the API response to be available is too long.
+Therefore you can immediately update the cache data and rebuild your widget tree by using the optimistic response.
+Make sure to remove <code>await</code> keyword before the API call since this will block the thread.</p>
+<pre class="language-dart"><code class="language-dart">  queryCache.setOptimistic("requests", [...oldData, newData]);
+</code></pre>
+<h3 id="reset">Reset</h3>
+<p>In short, reset can be explained as cache-level invalidation without rebuilding the widget tree.<br>
+Also, async actions won't be ran immediately but only when the new <code>Query</code> widget is mounted or the <code>cacheKey</code> has changed.
+This is particularly useful for the log out action.</p>
+<pre class="language-dart"><code class="language-dart">queryCache.reset();
+</code></pre>
+<h2 id="summary">Summary</h2>
+<table><thead><tr><th>API</th><th>Description</th></tr></thead><tbody><tr><td><a href="#query">Query</a></td><td>Flutter widget used for data-fetching operations.</td></tr><tr><td><a href="#cache-key">queryCache.invalidateQueries</a></td><td>Invalidates query specified by cache key and rebuilds the widget tree.</td></tr><tr><td><a href="#invalidation">queryCache.invalidateAll</a></td><td>Invalidates every query stored in cache and rebuilds the widget tree.</td></tr><tr><td><a href="#optimistic-response">queryCache.setOptimistic</a></td><td>Set cache data manually and rebuild the widget tree.</td></tr><tr><td><a href="#reset">queryCache.reset</a></td><td>Invalidates every query stored in cache without rebuilding the widget tree.</td></tr></tbody></table>
 </section>
 
 
@@ -83,7 +239,7 @@ directory. You can also find a detailed instruction on how to add platforms in t
 </header>
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-  <li><a href="https://github.com/mislavlukach/flutter_requery">flutter_requery package</a></li>
+  <li><a href="https://github.com/CoreLine-agency/flutter_requery">flutter_requery package</a></li>
 </ol>
 
 
@@ -103,7 +259,7 @@ directory. You can also find a detailed instruction on how to add platforms in t
 <footer>
   <span class="no-break">
     flutter_requery
-      0.0.9
+      0.1.3
   </span>
 
   
