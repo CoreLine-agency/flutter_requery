@@ -9,3 +9,11 @@
 ## 0.1.2
 
 - Added README.MD
+
+## 0.1.3
+
+- Updated README.MD
+
+## 0.1.4
+
+- Documentation change
