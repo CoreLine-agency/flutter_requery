@@ -23,7 +23,8 @@ class App extends StatelessWidget {
     await _addString();
     queryCache.invalidateQueries('strKey');
 
-    // Or if you don't want to wait and you are sure your API works use optimistic response.
+    // Or if you don't want to wait and you are sure
+    // your API works use optimistic response.
     // _addString();
     // queryCache.setOptimistic('strKey', [...data, 'World']);
   }

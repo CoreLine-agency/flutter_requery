@@ -144,7 +144,8 @@ class _QueryState<T extends Object> extends State<Query<T>> {
     return StreamBuilder(
       initialData: null,
       stream: stream,
-      builder: (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
         if (snapshot.data == null) {
           return Container();
         }

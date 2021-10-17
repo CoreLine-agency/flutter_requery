@@ -1,3 +1,11 @@
-## 0.0.1
+## 0.1.0
 
-* TODO: Describe initial release.
+- Added documentation
+
+## 0.1.1
+
+- File formatting
+
+## 0.1.2
+
+- Added README.MD

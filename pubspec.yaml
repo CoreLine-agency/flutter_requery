@@ -1,11 +1,11 @@
 name: flutter_requery
-description: Flutter widget for fetching, caching and refetching asynchronous data.
-version: 0.0.9
+description: Flutter library for fetching, caching and invalidating asynchronous data.
+version: 0.1.2
 homepage: https://github.com/CoreLine-agency/flutter_requery
 documentation: https://github.com/CoreLine-agency/flutter_requery
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=2.0.0 <3.0.0"
+  flutter: ">=2.0.0"
 dependencies:
   flutter:
     sdk: flutter

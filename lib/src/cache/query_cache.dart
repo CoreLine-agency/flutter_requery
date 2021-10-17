@@ -41,7 +41,8 @@ class QueryCache {
   ///
   /// Alternative approach would be to use invalidate queries.
   /// Look at the [invalidateQueries] for more details
-  setOptimistic<T>(dynamic key, T data) => internalCache.setOptimistic(key, data);
+  setOptimistic<T>(dynamic key, T data) =>
+      internalCache.setOptimistic(key, data);
 }
 
 /// Instance of the QueryCache class.
