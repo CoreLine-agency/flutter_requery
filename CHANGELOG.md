@@ -17,3 +17,7 @@
 ## 0.1.4
 
 - Documentation change
+
+## 0.1.5
+
+- Query data type extends dynamic

@@ -10,7 +10,7 @@ import 'package:flutter_requery/src/types.dart';
 /// Takes [builder] which follows the standard Flutter builder pattern. First
 /// parameter is [BuildContext] followed by [QueryResponse] object
 ///
-class Query<T extends Object> extends StatefulWidget {
+class Query<T extends dynamic> extends StatefulWidget {
   /// Identifier used for storing the data in cache.
   ///
   /// [cacheKey] can be int or String.
@@ -64,7 +64,7 @@ class Query<T extends Object> extends StatefulWidget {
   _QueryState<T> createState() => _QueryState<T>();
 }
 
-class _QueryState<T extends Object> extends State<Query<T>> {
+class _QueryState<T extends dynamic> extends State<Query<T>> {
   late Stream<QueryResponse<T>> stream;
   Stream<QueryResponse<T>> _createStreamFromAction<T>(
     Function cb,
@@ -144,8 +144,7 @@ class _QueryState<T extends Object> extends State<Query<T>> {
     return StreamBuilder(
       initialData: null,
       stream: stream,
-      builder:
-          (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
         if (snapshot.data == null) {
           return Container();
         }
