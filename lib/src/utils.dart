@@ -2,8 +2,9 @@ bool _isPrimitive(dynamic key) {
   return key is String || key is int;
 }
 
+String _delimiter = "|";
 bool _containsDelimiter(String key) {
-  return key.contains("_");
+  return key.contains(_delimiter);
 }
 
 String _transformSubKey(dynamic subKey) {
@@ -15,7 +16,7 @@ String _transformSubKey(dynamic subKey) {
       throw 'Cache key can\'t be an empty string.';
     }
     if (_containsDelimiter(subKey)) {
-      throw 'Cache key can\'t contain underscore.';
+      throw 'Cache key can\'t contain |';
     }
     return subKey;
   } else if (subKey is int) {
@@ -23,6 +24,12 @@ String _transformSubKey(dynamic subKey) {
   } else {
     throw 'Cache key must be serializable. Please use int or String.';
   }
+}
+
+bool areKeysEqual(dynamic key1, dynamic key2) {
+  final k1 = transformKey(key1);
+  final k2 = transformKey(key2);
+  return k1 == k2;
 }
 
 String transformKey(dynamic args) {
@@ -36,7 +43,7 @@ String transformKey(dynamic args) {
 
     return args.skip(1).fold(first, (acc, subKey) {
       String k = _transformSubKey(subKey);
-      return "${acc}_$k";
+      return "$acc$_delimiter$k";
     });
   }
 }

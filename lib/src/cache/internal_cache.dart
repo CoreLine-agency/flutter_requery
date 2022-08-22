@@ -36,6 +36,20 @@ class InternalCache {
     }
   }
 
+  void clearData(dynamic key) {
+    if (containsKey(key)) {
+      String transformed = transformKey(key);
+      _cache[transformed]!.data = null;
+    }
+  }
+
+  void removeKey(dynamic key) {
+    if (containsKey(key)) {
+      String transformed = transformKey(key);
+      _cache.remove(transformed);
+    }
+  }
+
   getData(dynamic key) {
     if (containsKey(key)) {
       String transformed = transformKey(key);
@@ -75,12 +89,18 @@ class InternalCache {
   }
 
   invalidateAll() {
+    final keysToBeRemoved = [];
+    List<CacheItemSubscriber> subscribersToBeCalled = [];
     for (var key in _cache.keys) {
       final subscribers = _cache[key]!.subscribers;
-      for (var subscriber in subscribers) {
-        subscriber.refetch();
+      if (subscribers.isEmpty) {
+        keysToBeRemoved.add(key);
+        continue;
       }
+      subscribersToBeCalled.addAll(subscribers);
     }
+    subscribersToBeCalled.forEach((s) => s.refetch());
+    _cache.removeWhere((key, value) => keysToBeRemoved.contains(key));
   }
 
   reset() {

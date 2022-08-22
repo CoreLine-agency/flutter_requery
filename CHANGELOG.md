@@ -21,3 +21,7 @@
 ## 0.1.5
 
 - Query data type extends dynamic
+
+## 0.1.6
+
+- Reading from cache failed if the null is stores - fixed

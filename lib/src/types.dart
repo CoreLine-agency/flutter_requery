@@ -21,4 +21,9 @@ class QueryResponse<T> {
     this.loading = false,
     this.error,
   });
+
+  // @override
+  // String toString() {
+  //   return '(loading=$loading, error=$error, data=${data != null})';
+  // }
 }

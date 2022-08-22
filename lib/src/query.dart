@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_requery/src/cache/cache_item_subscriber.dart';
 import 'package:flutter_requery/src/cache/internal_cache.dart';
 import 'package:flutter_requery/src/types.dart';
+import 'package:flutter_requery/src/utils.dart';
 
 /// Executes async action and listens for further invalidations.
 ///
@@ -82,7 +83,7 @@ class _QueryState<T extends dynamic> extends State<Query<T>> {
   }
 
   Stream<QueryResponse<T>> _createStreamFromCache() async* {
-    T data = internalCache.getData(widget.cacheKey)!;
+    T? data = internalCache.getData(widget.cacheKey);
     yield QueryResponse(data: data);
   }
 
@@ -110,7 +111,7 @@ class _QueryState<T extends dynamic> extends State<Query<T>> {
 
   @override
   void didUpdateWidget(covariant Query<T> oldWidget) {
-    if (widget.cacheKey != oldWidget.cacheKey) {
+    if (!areKeysEqual(widget.cacheKey, oldWidget.cacheKey)) {
       internalCache.removeSubscriber(oldWidget.cacheKey, oldWidget.hashCode);
       _initQuery();
     }
@@ -124,11 +125,14 @@ class _QueryState<T extends dynamic> extends State<Query<T>> {
   }
 
   void _restartStream() {
-    if (mounted) {
-      setState(() {
-        stream = _createStreamFromAction(widget.future);
-      });
+    if (!mounted) {
+      internalCache.removeKey(widget.cacheKey);
+      return;
     }
+
+    setState(() {
+      stream = _createStreamFromAction(widget.future);
+    });
   }
 
   void _rebuildStream() {
@@ -144,7 +148,8 @@ class _QueryState<T extends dynamic> extends State<Query<T>> {
     return StreamBuilder(
       initialData: null,
       stream: stream,
-      builder: (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<QueryResponse<T>?> snapshot) {
         if (snapshot.data == null) {
           return Container();
         }
